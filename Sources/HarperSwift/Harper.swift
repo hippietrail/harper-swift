@@ -8,7 +8,7 @@ public struct Harper {
         defer { free(UnsafeMutableRawPointer(mutating: cstr)) }
         return String(cString: cstr)
     }
-    
+
     public static func hello() -> String {
         return "Hello, World!"
     }
@@ -44,7 +44,9 @@ public struct Harper {
 
         public func getLints(lintGroup: LintGroup) -> [Lint] {
             var count: Int32 = 0
-            guard let lintsPtr = harper_get_lints(ptr, lintGroup.ptr, &count), count > 0 else { return [] }
+            guard let lintsPtr = harper_get_lints(ptr, lintGroup.ptr, &count), count > 0 else {
+                return []
+            }
             var result: [Lint] = []
             let buffer = UnsafeBufferPointer(start: lintsPtr, count: Int(count))
             for lintPtr in buffer {
@@ -90,7 +92,7 @@ public struct Harper {
             harper_get_lint_start_and_end(ptr, &start, &end)
             return (start, end)
         }
-        
+
         /// Returns the problematic text fragment for this lint, or nil if unavailable.
         ///
         /// Note: In Swift, slicing a String (e.g., `docText[sIdx..<eIdx]`) produces a `Substring`,
@@ -107,10 +109,15 @@ public struct Harper {
             guard start >= 0, end >= start else { return nil }
             guard let docText = document.getText() else { return nil }
             // Convert Int64 to String.Index safely
-            guard let startIdx = docText.utf16.index(docText.utf16.startIndex, offsetBy: Int(start), limitedBy: docText.utf16.endIndex),
-                  let endIdx = docText.utf16.index(docText.utf16.startIndex, offsetBy: Int(end), limitedBy: docText.utf16.endIndex),
-                  let sIdx = String.Index(startIdx, within: docText),
-                  let eIdx = String.Index(endIdx, within: docText) else { return nil }
+            guard
+                let startIdx = docText.utf16.index(
+                    docText.utf16.startIndex, offsetBy: Int(start),
+                    limitedBy: docText.utf16.endIndex),
+                let endIdx = docText.utf16.index(
+                    docText.utf16.startIndex, offsetBy: Int(end), limitedBy: docText.utf16.endIndex),
+                let sIdx = String.Index(startIdx, within: docText),
+                let eIdx = String.Index(endIdx, within: docText)
+            else { return nil }
             return String(docText[sIdx..<eIdx])
         }
 

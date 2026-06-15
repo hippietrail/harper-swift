@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "HarperSwift",
     platforms: [
-        .macOS(.v10_15)
+        .macOS(.v12)
     ],
     products: [
         .library(
@@ -27,7 +27,7 @@ let package = Package(
             name: "HarperSwift",
             dependencies: ["CHarper"],
             linkerSettings: [
-                .unsafeFlags(["-L", "target/release"]),
+                .unsafeFlags(["-L", "/Users/hippietrail/.hippietrail/cargo-harper-consumers/release"]),
                 .linkedLibrary("harper_ffi")
             ]
         ),
