@@ -8,5 +8,5 @@ name = "harper_ffi"
 crate-type = ["staticlib", "cdylib"]  # staticlib for iOS, cdylib for macOS
 
 [dependencies]
-harper-core = "0.45.0"  # Latest version as of now
+harper-core = "2.5.0"  # Latest version as of June 2026
 libc = "0.2"  # For C types in FFI

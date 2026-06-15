@@ -82,7 +82,7 @@ pub extern "C" fn harper_get_token_count(doc: *const Document) -> i32 {
 
 #[no_mangle]
 pub extern "C" fn harper_create_lint_group() -> *mut LintGroup {
-    let dictionary = harper_core::FstDictionary::curated();
+    let dictionary = harper_core::spell::FstDictionary::curated();
     let lint_group = harper_core::linting::LintGroup::new_curated(
         std::sync::Arc::new(dictionary),
         harper_core::Dialect::Australian,
